@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Little Pony API</title>
+</head>
+<body>
+
+    <h1>My Little Pony API</h1>
+
+    <ul id="characterList"></ul>
+
+    <script>
+        let characterList = document.getElementById("characterList");
+        let url = "https://ponyapi.net/v1/";
+
+        async function fetchCharacters() {
+            const response = await fetch(url + "character/all?limit=10");
+            console.log(response);
+
+            const data = await response.json();
+            console.log(data);
+
+            data.data.forEach(character => {
+                let image = character.image && character.image.length
+                    ? character.image[0]
+                    : "";
+
+                characterList.innerHTML += `<li>
+                        <h2>${character.name}</h2>
+                        ${image ? `<img src="${image}" alt="${character.name}">` : ""}
+                    </li>`;
+            });
+        }
+
+        fetchCharacters();
+    </script>
+
+</body>
+</html>
